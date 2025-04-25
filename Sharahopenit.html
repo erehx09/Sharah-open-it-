@@ -1,93 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Story</title>
+  <title>I Miss You</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: black;
-      color: white;
       margin: 0;
       padding: 0;
+      background: url('https://i.imgur.com/fPOZo7E.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-    }
-    .screen {
-      display: none;
-      padding: 20px;
-    }
-    .screen.active {
-      display: block;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-    }
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      background-color: #444;
-      color: white;
-    }
-    button:hover {
-      background-color: #666;
-    }
-    #noPath, #yesPath {
-      max-width: 600px;
-      margin: auto;
-    }
+      overflow: hidden;
+    }.text-container {
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.word {
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  position: relative;
+}
+
+.word::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+.word.animate {
+  transform: scale(1.3);
+  opacity: 0;
+}
+
+.corner {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 0.9rem;
+  color: white;
+  opacity: 0.6;
+  font-style: italic;
+}
+
   </style>
 </head>
 <body>
-  <!-- Screen 1 -->
-  <div id="screen1" class="screen active">
-    <h1>I have to tell you something.</h1>
-    <button onclick="nextScreen()">Next</button>
+  <div class="text-container" id="text">
+    <span class="word">I</span>
+    <span class="word">missing</span>
+    <span class="word">you</span>
+    <span class="word">badly</span>
   </div>
-
-  <!-- Screen 2 -->
-  <div id="screen2" class="screen">
-    <h1>Are you still in love with me?</h1>
-    <button onclick="showNo()">No</button>
-    <button onclick="showYes()">Yes</button>
-  </div>
-
-  <!-- No Path -->
-  <div id="noPath" class="screen">
-    <p>It's okay, fine if you don't love me. I'm sorry for sending this to you, please forgive me. But one thing you can be sure of— I will never leave you. I don’t care whom you're with. I will always keep a place for you in my heart, and I will end it with my promise— Either or neither.</p>
-  </div>
-
-  <!-- Yes Path -->
-  <div id="yesPath" class="screen">
-    <p>Then why aren't you saying anything? Do you really think I'm okay without talking to you? Do you think that if you walk away, I'll forget you? That's never going to happen. I will love you forever. No matter what. No matter how much distance comes between us. I may never be able to express how much I love you, but believe me, I really do. So much.</p>
-  </div>
+  <div class="corner">(Sharah)</div><audio id="pop" src="https://www.myinstants.com/media/sounds/pop.mp3"></audio>
 
   <script>
-    function nextScreen() {
-      document.getElementById('screen1').classList.remove('active');
-      document.getElementById('screen2').classList.add('active');
+    const words = document.querySelectorAll('.word');
+    const popSound = document.getElementById('pop');
+
+    let i = 0;
+    function animateWords() {
+      if (i >= words.length) return;
+      const word = words[i];
+      popSound.currentTime = 0;
+      popSound.play();
+      word.classList.add('animate');
+      i++;
+      setTimeout(animateWords, 600);
     }
-    function showNo() {
-      document.getElementById('screen2').classList.remove('active');
-      document.getElementById('noPath').classList.add('active');
-    }
-    function showYes() {
-      document.getElementById('screen2').classList.remove('active');
-      document.getElementById('yesPath').classList.add('active');
-    }
-  </script>
-</body>
+
+    setTimeout(animateWords, 1000);
+  </script></body>
 </html>
